@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <meta charset="UTF-8">
+        <title>New York Times Search</title>
+
+        <!-- Added a link to Bootstrap-->
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+        <style type="text/css">
+        /*CSS stye goes here*/
+            #header {
+                height: 200px;
+            	background-color: #021372;
+                text-align: center;
+            }
+
+            #header h1 {
+            	font-size: 65px;
+                letter-spacing: 3px;
+                line-height: 200px;
+                font-weight: bold;
+                color: #ffffff;
+            }
+
+            #maincontent {
+                border: 2px solid #ccc;
+                margin-top: 20px;
+            }
+
+            .page-header {
+                background-color: #00436b;
+                margin: 0;
+                height: 60px;
+            }
+
+            .page-header h2 {
+                color: #ffffff; 
+                font-size: 24px;
+                padding: 12px;
+                margin: 0;
+
+            }
+
+            #data-content {
+                border: 2px solid #ccc;
+                margin-top: 20px;
+            }
+
+            .page-header2 {
+                background-color: #00436b;
+                margin: 0;
+                height: 60px;
+            }
+
+            .page-header2 h2 {
+                color: #ffffff; 
+                font-size: 24px;
+                padding: 12px;
+                margin: 0;
+
+            }
+
+
+            form {
+              margin:20px;
+            }
+
+            input[type=text] {
+              width: 100%;
+                padding: 12px;
+                margin: 10px 0;
+                display: inline-block;
+                border: 2px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+                font-size: 16px;
+                outline: none;
+                box-shadow: 4px 4px 2px #bcbcbc;
+            }
+
+            input[type=text]:focus {
+                border: 2.5px solid #021372;
+                transition: border 1s;
+            }
+
+               input[type=number] {
+              width: 100%;
+                padding: 12px;
+                margin: 10px 0;
+                display: inline-block;
+                border: 2px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+                font-size: 16px;
+                outline: none;
+                box-shadow: 4px 4px 2px #bcbcbc;
+            }
+
+            input[type=number]:focus {
+                border: 2.5px solid #021372;
+                transition: border 1s;
+            }
+
+            label {
+              font-size: 18px;
+                position: relative;
+                top: 5px;
+                color: #021372;
+            }
+
+            input[type=submit] {
+                background-color: #888888;
+                border: none;
+                color: #ffffff;
+                font-size: 18px;
+                letter-spacing: 1px;
+                padding: 16px 32px;
+                text-decoration: none;
+                margin: 15px 2px 50px 2px;
+                border-radius: 10px;
+                cursor: pointer;
+                box-shadow: 4px 4px 2px #bcbcbc;
+            }
+
+            input[type=submit]:hover {
+                background-color: #021372;
+                color: #ffffff;
+                transition: background-color 1s, color 1s;
+            }
+
+        </style>
+
+    </head>
+<body>
+
+<!-- container center and auto margin for smooth layout -->
+<div class="container"> 
+
+    <!-- Header and title of page  -->   
+    <div id="header">
+        <h1><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> New York Times Search</h1>
+    </div>
+    <!-- end of Header -->
+
+    <!-- main content includes and form -->
+    <div id="maincontent">
+
+         <div class="page-header">
+                <h2><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Search Parameters</h2>
+        </div>
+        
+        <div>
+                        
+            <form action="nyt-form">
+             <!-- This form will be where users input data -->
+                <label for="nyt-input">Search Term:</label>
+                <input type="text" id="nyt-input" name="name" placeholder="Super Man">
+
+                <label for="records">Number of Records to Retrieve</label>
+                <input type="number" id="records-input" name="number" placeholder="">
+
+                <label for="startyear">Start Year (optional)</label>
+                <input type="number" id="startyear-input" name="name" placeholder="">
+
+                <label for="endyear">End Year (optional)</label>
+                <input type="number" id="endyear-input" name="name" placeholder="">
+            
+             <!-- This button will trigger our AJAX call -->
+                <input id="find-nyt" type="submit" value="Search">
+                <input type="submit" value="Clear Results">
+
+            </form>
+        </div>
+
+    </div><!-- End of main content -->
+
+    <!-- data-content includes hot topic header and  data retrieve from api get dump -->
+    <div id="data-content">
+
+     <div class="page-header2">
+                <h2><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Hot Topics</h2>
+        </div>
+
+         <!-- data dumps goes in nyt-view   --> 
+         <div id="nyt-view"></div>
+
+    </div>
+       
+
+    <!-- this old test form -->
+        <!-- This form will be where users input data -->
+            <!-- <form id="nyt-form">
+            <label for="nyt-input">Search for a article</label>
+            <input type="text" id="nyt-input"><br> -->
+
+            <!-- This button will trigger our AJAX call -->
+          <!-- <input id="find-nyt" type="submit" value="nyt Search">
+        </form> -->
+</div>
+<!-- end of container -->
+    
+
+
+<!-- Added link to the jQuery Library --> 
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.js"></script>
+	<script type="text/javascript">
+
+// You can erase this I was just using old exercise to test form
+// $("#find-nyt").on("click", function(event) {
+
+    
+//         var nyt = $("#nyt-input").val();
+
+//         var queryURL = "http://www.omdbapi.com/?t=" + nyt + "&y=&plot=short&r=json";
+
+     
+//         $.ajax({
+//           url: queryURL,
+//           method: "GET"
+//         }).done(function(response) {
+//             console.log(response);
+
+//           $('#nyt-view').text(JSON.stringify(response)
+//             );
+//         });
+
+//         return false;
+//erase all comments i was just testing form from past exercise
+
+	</script>
+    
+</body>
+</html>
