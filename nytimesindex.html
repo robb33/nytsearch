@@ -157,20 +157,20 @@
             <form action="nyt-form">
              <!-- This form will be where users input data -->
                 <label for="nyt-input">Search Term:</label>
-                <input type="text" id="nyt-input" name="name" placeholder="Super Man">
+                <input type="text" id="nyt-input" placeholder="Super Man">
 
-                <label for="records">Number of Records to Retrieve</label>
-                <input type="number" id="records-input" name="number" placeholder="">
+                <label for="find-nyt">Number of Records to Retrieve</label>
+                <input type="number" id="records-input"   placeholder="">
 
-                <label for="startyear">Start Year (optional)</label>
-                <input type="number" id="startyear-input" name="name" placeholder="">
+                <label for="find-nyt">Start Year (optional)</label>
+                <input type="number" id="startyear-input" placeholder="YYYYMMDD">
 
-                <label for="endyear">End Year (optional)</label>
-                <input type="number" id="endyear-input" name="name" placeholder="">
+                <label for="find-nyt">End Year (optional)</label>
+                <input type="number" id="endyear-input"   placeholder="YYYYMMDD">
             
              <!-- This button will trigger our AJAX call -->
                 <input id="find-nyt" type="submit" value="Search">
-                <input type="submit" value="Clear Results">
+                <input id="clear" type="submit" value="Clear Results">
 
             </form>
         </div>
@@ -189,16 +189,6 @@
 
     </div>
        
-
-    <!-- this old test form -->
-        <!-- This form will be where users input data -->
-            <!-- <form id="nyt-form">
-            <label for="nyt-input">Search for a article</label>
-            <input type="text" id="nyt-input"><br> -->
-
-            <!-- This button will trigger our AJAX call -->
-          <!-- <input id="find-nyt" type="submit" value="nyt Search">
-        </form> -->
 </div>
 <!-- end of container -->
     
@@ -209,28 +199,44 @@
 	<script type="text/javascript">
 
 // You can erase this I was just using old exercise to test form
-// $("#find-nyt").on("click", function(event) {
+$("#find-nyt").on("click", function(event) {
 
     
-//         var nyt = $("#nyt-input").val();
+        var nyt = $("#nyt-input").val().trim();
+        var records = $("#records-input").val().trim();
+        var startyear = $("#startyear-input").val().trim();
+        var endyear = $("#endyear-input").val().trim();
 
-//         var queryURL = "http://www.omdbapi.com/?t=" + nyt + "&y=&plot=short&r=json";
 
-     
-//         $.ajax({
-//           url: queryURL,
-//           method: "GET"
-//         }).done(function(response) {
-//             console.log(response);
+        var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + nyt +
+                         "&page=" + records +
+                         "&begin_date=" + startyear +
+                         "&end_date=" + endyear +
+                         "&api-key=cfd93940381747bb8850d54f230e3853";
 
-//           $('#nyt-view').text(JSON.stringify(response)
-//             );
-//         });
+     // test link https://api.nytimes.com/svc/search/v2/articlesearch.json?q=ny&page=10&begin_date=19990919&end_date=20161010&api-key=cfd93940381747bb8850d54f230e3853
 
-//         return false;
-//erase all comments i was just testing form from past exercise
+        $.ajax({
+          url: queryURL,
+          method: "GET"
+        }).done(function(response) {
+            console.log(response);
 
+          $('#nyt-view').text(JSON.stringify(response)
+            );
+        });
+
+        return false;
+});
+
+// $("#clear").on("click", function(event) {
+//         $("#nyt-input").empty();
+//         $("#records-input").empty();
+//         $("#startyear-input").empty();
+//         $("#endyear-input").empty();
+// });
 	</script>
+
     
 </body>
 </html>
